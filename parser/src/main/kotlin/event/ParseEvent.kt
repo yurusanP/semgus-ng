@@ -1,6 +1,7 @@
 package org.semgusng.parser.event
 
 import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
@@ -11,32 +12,31 @@ import org.semgusng.parser.model.smt.*
 
 @Serializable
 sealed class ParseEvent {
-  @Suppress("unused")
-  abstract val `$event`: String
-  @Suppress("unused")
-  abstract val `$type`: String
+  @SerialName("\$event") abstract val event: String
+
+  @SerialName("\$type") abstract val type: String
 
   @Serializable
   data class SetInfoEvent(
     val keyword: String,
     val value: SmtAttributeValue,
-    override val `$event`: String = "set-info",
-    override val `$type`: String = "meta",
+    @SerialName("\$event") override val event: String = "set-info",
+    @SerialName("\$type") override val type: String = "meta",
   ) : ParseEvent()
 
   @Serializable
   data class TermTypeDeclarationEvent(
     val name: String,
-    override val `$event`: String = "declare-term-type",
-    override val `$type`: String = "semgus",
+    @SerialName("\$event") override val event: String = "declare-term-type",
+    @SerialName("\$type") override val type: String = "semgus",
   ) : ParseEvent()
 
   @Serializable
   data class TermTypeDefinitionEvent(
     val name: String,
     val constructors: List<Constructor>,
-    override val `$event`: String = "define-term-type",
-    override val `$type`: String = "semgus",
+    @SerialName("\$event") override val event: String = "define-term-type",
+    @SerialName("\$type") override val type: String = "semgus",
   ) : ParseEvent() {
     @Serializable
     data class Constructor(
@@ -49,8 +49,8 @@ sealed class ParseEvent {
   data class FunctionDeclarationEvent(
     val name: SmtIdentifier,
     val rank: SmtFunctionRank,
-    override val `$event`: String = "declare-function",
-    override val `$type`: String = "smt",
+    @SerialName("\$event") override val event: String = "declare-function",
+    @SerialName("\$type") override val type: String = "smt",
   ) : ParseEvent()
 
   @Serializable
@@ -58,8 +58,8 @@ sealed class ParseEvent {
     val name: SmtIdentifier,
     val rank: SmtFunctionRank,
     val definition: SmtTerm.SmtLambdaBinder,
-    override val `$event`: String = "define-function",
-    override val `$type`: String = "smt",
+    @SerialName("\$event") override val event: String = "define-function",
+    @SerialName("\$type") override val type: String = "smt",
   ) : ParseEvent()
 }
 

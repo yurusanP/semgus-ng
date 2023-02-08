@@ -1,6 +1,7 @@
 package org.semgusng.parser.model.smt
 
 import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
@@ -9,21 +10,20 @@ import kotlinx.serialization.json.jsonPrimitive
 
 @Serializable(with = SmtTermSerializer::class)
 sealed class SmtTerm {
-  @Suppress("unused")
-  abstract val `$termType`: String
+  @SerialName("\$termType") abstract val termType: String
 
   @Serializable
   data class SmtVariable(
     val name: String,
     val sort: SmtSort,
-    override val `$termType`: String = "variable",
+    @SerialName("\$termType") override val termType: String = "variable",
   ) : SmtTerm()
 
   @Serializable
   data class SmtLambdaBinder(
     val arguments: List<SmtIdentifier>,
     val body: SmtTerm,
-    override val `$termType`: String = "lambda",
+    @SerialName("\$termType") override val termType: String = "lambda",
   ) : SmtTerm()
 }
 
