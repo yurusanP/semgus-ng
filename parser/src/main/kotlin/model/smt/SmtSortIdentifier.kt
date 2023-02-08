@@ -1,5 +1,6 @@
 package org.semgusng.parser.model.smt
 
+import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -8,6 +9,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
+import kotlinx.serialization.json.JsonElement
 import org.semgusng.parser.model.smt.SmtSortIdentifier.Simple
 
 @Serializable(with = SmtSortIdentifierSerializer::class)
@@ -17,11 +19,12 @@ sealed class SmtSortIdentifier {
   @Serializable(with = SmtSortIdentifierSerializer.SimpleSerializer::class)
   data class Simple(override val name: SmtIdentifier) : SmtSortIdentifier()
 
-  // TODO: Composite
+  // Note: Parameterized sorts not yet supported by the JSON serializer.
+  // See SemgusParser/Json/Converters/SmtSortIdentifierConverter.cs
 }
 
 object SmtSortIdentifierSerializer : JsonContentPolymorphicSerializer<SmtSortIdentifier>(SmtSortIdentifier::class) {
-  override fun selectDeserializer(element: kotlinx.serialization.json.JsonElement): kotlinx.serialization.DeserializationStrategy<out SmtSortIdentifier> {
+  override fun selectDeserializer(element: JsonElement): DeserializationStrategy<out SmtSortIdentifier> {
     return Simple.serializer()
   }
 
@@ -30,6 +33,7 @@ object SmtSortIdentifierSerializer : JsonContentPolymorphicSerializer<SmtSortIde
       get() = PrimitiveSerialDescriptor("SmtSortIdentifier.Simple", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): Simple {
+      // that simple is not this simple
       return Simple(decoder.decodeSerializableValue(SmtIdentifier.Simple.serializer()))
     }
 

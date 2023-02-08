@@ -7,14 +7,13 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.semgusng.parser.event.ParseEvent.*
-import org.semgusng.parser.model.smt.SmtAttributeValue
-import org.semgusng.parser.model.smt.SmtFunctionRank
-import org.semgusng.parser.model.smt.SmtIdentifier
-import org.semgusng.parser.model.smt.SmtSortIdentifier
+import org.semgusng.parser.model.smt.*
 
 @Serializable
 sealed class ParseEvent {
+  @Suppress("unused")
   abstract val `$event`: String
+  @Suppress("unused")
   abstract val `$type`: String
 
   @Serializable
@@ -53,6 +52,15 @@ sealed class ParseEvent {
     override val `$event`: String = "declare-function",
     override val `$type`: String = "smt",
   ) : ParseEvent()
+
+  @Serializable
+  data class FunctionDefinitionEvent(
+    val name: SmtIdentifier,
+    val rank: SmtFunctionRank,
+    val definition: SmtTerm.SmtLambdaBinder,
+    override val `$event`: String = "define-function",
+    override val `$type`: String = "smt",
+  ) : ParseEvent()
 }
 
 /**
@@ -65,7 +73,8 @@ object ParseEventSerializer : JsonContentPolymorphicSerializer<ParseEvent>(Parse
       "declare-term-type" -> TermTypeDeclarationEvent.serializer()
       "define-term-type" -> TermTypeDefinitionEvent.serializer()
       "declare-function" -> FunctionDeclarationEvent.serializer()
-      else -> throw IllegalArgumentException("Unknown event: $eventContent")
+      "define-function" -> FunctionDefinitionEvent.serializer()
+      else -> error("Unknown event: $eventContent")
     }
   }
 }
