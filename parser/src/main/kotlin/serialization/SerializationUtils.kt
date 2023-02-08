@@ -13,7 +13,6 @@ val format = Json {
   isLenient = true
   encodeDefaults = true
   prettyPrint = true
-  encodeDefaults = true
 }
 
 fun <T> String.decode(serializer: KSerializer<T>) = format.decodeFromString(serializer, this)

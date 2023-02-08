@@ -14,7 +14,7 @@ class SerializationUtilsTest : FunSpec(
         println(event)
         val json2 = event.encode(ParseEventSerializer)
         println(json2)
-        json shouldEqualJson json2
+        json2 shouldEqualJson json
       }
     }
 
@@ -24,7 +24,7 @@ class SerializationUtilsTest : FunSpec(
         println(events)
         val json2 = events.encodeBatch(ParseEventSerializer)
         println(json2)
-        json shouldEqualJson json2
+        json2 shouldEqualJson json
       }
     }
   },
