@@ -68,7 +68,7 @@ sealed class ParseEvent {
  */
 object ParseEventSerializer : JsonContentPolymorphicSerializer<ParseEvent>(ParseEvent::class) {
   override fun selectDeserializer(element: JsonElement): DeserializationStrategy<out ParseEvent> {
-    return when (val eventContent = element.jsonObject["\$event"]?.jsonPrimitive.toString()) {
+    return when (val eventContent = element.jsonObject["\$event"]?.jsonPrimitive?.content) {
       "set-info" -> SetInfoEvent.serializer()
       "declare-term-type" -> TermTypeDeclarationEvent.serializer()
       "define-term-type" -> TermTypeDefinitionEvent.serializer()

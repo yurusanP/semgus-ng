@@ -58,7 +58,7 @@ object SmtTermSerializer : JsonContentPolymorphicSerializer<SmtTerm>(SmtTerm::cl
       }
     }
 
-    return when (val termTypeContent = element.jsonObject["\$termType"]?.jsonPrimitive.toString()) {
+    return when (val termTypeContent = element.jsonObject["\$termType"]?.jsonPrimitive?.content) {
       "variable" -> SmtVariable.serializer()
       "lambda" -> SmtLambdaBinder.serializer()
       else -> error("Unknown term type: $termTypeContent")
