@@ -23,16 +23,16 @@ sealed class SmtIdentifier {
 
   // Todo: Add support for indexed identifiers
 
-  //  @Serializable(with = SmtIdentifierSerializer.CompositeSerializer::class)
-  //  data class Composite(override var symbol: String, var indices: List<Index>) : SmtIdentifier() {
-  //    @Serializable
-  //    sealed class Index {
-  //      @Serializable
-  //      data class NString(val value: String) : Index()
-  //      @Serializable
-  //      data class NInt(val value: Int) : Index()
-  //    }
-  //  }
+//  @Serializable(with = SmtIdentifierSerializer.CompositeSerializer::class)
+//  data class Composite(override var symbol: String, var indices: List<Index>) : SmtIdentifier() {
+//    @Serializable
+//    sealed class Index {
+//      @Serializable
+//      data class NString(val value: String) : Index()
+//      @Serializable
+//      data class NInt(val value: Int) : Index()
+//    }
+//  }
 }
 
 object SmtIdentifierSerializer : JsonContentPolymorphicSerializer<SmtIdentifier>(SmtIdentifier::class) {
