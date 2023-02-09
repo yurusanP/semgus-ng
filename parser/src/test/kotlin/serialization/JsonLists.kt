@@ -1,6 +1,6 @@
 package org.semgusng.parser.serialization
 
-val jsonList = listOf(
+val basicJsonList = listOf(
   """
     {
       "keyword": "format-version",

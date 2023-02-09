@@ -5,6 +5,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withData
 import org.semgusng.parser.serialization.decode
 import org.semgusng.parser.serialization.encode
+import org.semgusng.parser.smt.SmtTerm
 import org.semgusng.parser.smt.SmtTermSerializer
 
 class SmtTermTest : FunSpec(
@@ -19,9 +20,9 @@ class SmtTermTest : FunSpec(
         ),
       ) { json ->
         println(json)
-        val term = json.decode(SmtTermSerializer)
+        val term = json.decode(SmtTerm.serializer())
         println(term)
-        val json2 = term.encode(SmtTermSerializer)
+        val json2 = term.encode(SmtTerm.serializer())
         println(json2)
         json2 shouldEqualJson json
       }
@@ -84,9 +85,9 @@ class SmtTermTest : FunSpec(
         }
       """.trimIndent()
       println(json)
-      val term = json.decode(SmtTermSerializer)
+      val term = json.decode(SmtTerm.serializer())
       println(term)
-      val json2 = term.encode(SmtTermSerializer)
+      val json2 = term.encode(SmtTerm.serializer())
       println(json2)
       json2 shouldEqualJson json
     }

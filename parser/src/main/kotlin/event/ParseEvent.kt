@@ -10,7 +10,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.semgusng.parser.event.ParseEvent.*
 import org.semgusng.parser.smt.*
 
-@Serializable
+@Serializable(with = ParseEventSerializer::class)
 sealed class ParseEvent {
   @SerialName("\$event") abstract val event: String
 
