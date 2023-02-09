@@ -53,14 +53,14 @@ sealed class SmtTerm {
 
   @Serializable
   data class SmtExistsBinder(
-    val binding: List<SmtVariable>,
+    val bindings: List<SmtVariable>,
     val child: SmtTerm,
     @SerialName("\$termType") override val termType: String = "exists",
   ) : SmtTerm()
 
   @Serializable
   data class SmtForallBinder(
-    val binding: List<SmtVariable>,
+    val bindings: List<SmtVariable>,
     val child: SmtTerm,
     @SerialName("\$termType") override val termType: String = "forall",
   ) : SmtTerm()
