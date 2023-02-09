@@ -51,5 +51,44 @@ class SmtTermTest : FunSpec(
       println(json2)
       json2 shouldEqualJson json
     }
+
+    context("testSmtBinder") {
+      val json = """
+        {
+          "operator": "${'$'}t",
+          "arguments": [],
+          "child": {
+            "name": "=",
+            "returnSort": "Bool",
+            "argumentSorts": [
+              "Bool",
+              "Bool"
+            ],
+            "arguments": [
+              {
+                "name": "r",
+                "sort": "Bool",
+                "${'$'}termType": "variable"
+              },
+              {
+                "name": "true",
+                "returnSort": "Bool",
+                "argumentSorts": [],
+                "arguments": [],
+                "${'$'}termType": "application"
+              }
+            ],
+            "${'$'}termType": "application"
+          },
+          "${'$'}termType": "binder"
+        }
+      """.trimIndent()
+      println(json)
+      val term = json.decode(SmtTermSerializer)
+      println(term)
+      val json2 = term.encode(SmtTermSerializer)
+      println(json2)
+      json2 shouldEqualJson json
+    }
   },
 )

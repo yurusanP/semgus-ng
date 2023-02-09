@@ -33,11 +33,36 @@ sealed class SmtTerm {
     @SerialName("\$termType") override val termType: String = "string",
   ) : SmtTerm()
 
+  // Todo: Add support for annotations
+
+  @Serializable
+  data class SmtFunctionApplication(
+    val name: SmtIdentifier,
+    val returnSort: SmtSortIdentifier,
+    val argumentSorts: List<SmtSortIdentifier>,
+    val arguments: List<SmtTerm>,
+    @SerialName("\$termType") override val termType: String = "application",
+  ) : SmtTerm()
+
   @Serializable
   data class SmtVariable(
-    val name: String,
-    val sort: SmtSort,
+    val name: SmtIdentifier,
+    val sort: SmtSortIdentifier,
     @SerialName("\$termType") override val termType: String = "variable",
+  ) : SmtTerm()
+
+  @Serializable
+  data class SmtExistsBinder(
+    val binding: List<SmtVariable>,
+    val child: SmtTerm,
+    @SerialName("\$termType") override val termType: String = "exists",
+  ) : SmtTerm()
+
+  @Serializable
+  data class SmtForallBinder(
+    val binding: List<SmtVariable>,
+    val child: SmtTerm,
+    @SerialName("\$termType") override val termType: String = "forall",
   ) : SmtTerm()
 
   @Serializable
@@ -45,6 +70,28 @@ sealed class SmtTerm {
     val arguments: List<SmtIdentifier>,
     val body: SmtTerm,
     @SerialName("\$termType") override val termType: String = "lambda",
+  ) : SmtTerm()
+
+  @Serializable
+  data class SmtMatchBinder(
+    val operator: SmtIdentifier,
+    val arguments: List<SmtIdentifier>,
+    val child: SmtTerm,
+    @SerialName("\$termType") override val termType: String = "binder",
+  ) : SmtTerm()
+
+  @Serializable
+  data class SmtMatchGrouper(
+    val term: SmtTerm,
+    val binders: List<SmtMatchBinder>,
+    @SerialName("\$termType") override val termType: String = "match",
+  ) : SmtTerm()
+
+  @Serializable
+  data class SmtBitVectorLiteral(
+    val size: Int,
+    val value: String,
+    @SerialName("\$termType") override val termType: String = "bitvector",
   ) : SmtTerm()
 }
 
@@ -59,8 +106,14 @@ object SmtTermSerializer : JsonContentPolymorphicSerializer<SmtTerm>(SmtTerm::cl
     }
 
     return when (val termTypeContent = element.jsonObject["\$termType"]?.jsonPrimitive?.content) {
+      "application" -> SmtFunctionApplication.serializer()
       "variable" -> SmtVariable.serializer()
+      "exists" -> SmtExistsBinder.serializer()
+      "forall" -> SmtForallBinder.serializer()
       "lambda" -> SmtLambdaBinder.serializer()
+      "binder" -> SmtMatchBinder.serializer()
+      "match" -> SmtMatchGrouper.serializer()
+      "bitvector" -> SmtBitVectorLiteral.serializer()
       else -> error("Unknown term type: $termTypeContent")
     }
   }
