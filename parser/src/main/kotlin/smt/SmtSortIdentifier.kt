@@ -1,4 +1,4 @@
-package org.semgusng.parser.model.smt
+package org.semgusng.parser.smt
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
@@ -10,7 +10,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
-import org.semgusng.parser.model.smt.SmtSortIdentifier.Simple
+import org.semgusng.parser.smt.SmtSortIdentifier.Simple
 
 @Serializable(with = SmtSortIdentifierSerializer::class)
 sealed class SmtSortIdentifier {

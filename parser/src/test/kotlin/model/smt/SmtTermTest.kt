@@ -5,6 +5,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withData
 import org.semgusng.parser.serialization.decode
 import org.semgusng.parser.serialization.encode
+import org.semgusng.parser.smt.SmtTermSerializer
 
 class SmtTermTest : FunSpec(
   {

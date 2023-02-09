@@ -1,4 +1,4 @@
-package org.semgusng.parser.model.smt
+package org.semgusng.parser.smt
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

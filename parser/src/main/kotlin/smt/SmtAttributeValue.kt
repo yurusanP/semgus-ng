@@ -1,4 +1,4 @@
-package org.semgusng.parser.model.smt
+package org.semgusng.parser.smt
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
@@ -13,8 +13,8 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
-import org.semgusng.parser.model.smt.SmtAttributeValue.AList
-import org.semgusng.parser.model.smt.SmtAttributeValue.AString
+import org.semgusng.parser.smt.SmtAttributeValue.AList
+import org.semgusng.parser.smt.SmtAttributeValue.AString
 
 @Serializable(with = SmtAttributeValueSerializer::class)
 sealed class SmtAttributeValue {

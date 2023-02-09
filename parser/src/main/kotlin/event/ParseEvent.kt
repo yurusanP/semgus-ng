@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.semgusng.parser.event.ParseEvent.*
-import org.semgusng.parser.model.smt.*
+import org.semgusng.parser.smt.*
 
 @Serializable
 sealed class ParseEvent {

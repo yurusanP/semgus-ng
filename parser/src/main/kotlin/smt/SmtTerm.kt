@@ -1,4 +1,4 @@
-package org.semgusng.parser.model.smt
+package org.semgusng.parser.smt
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
@@ -9,7 +9,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.*
-import org.semgusng.parser.model.smt.SmtTerm.*
+import org.semgusng.parser.smt.SmtTerm.*
 
 @Serializable(with = SmtTermSerializer::class)
 sealed class SmtTerm {
