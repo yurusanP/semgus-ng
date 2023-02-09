@@ -1,4 +1,4 @@
-package org.semgusng.parser.serialization
+package org.semgusng.parser
 
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.core.spec.style.FunSpec

@@ -1,4 +1,4 @@
-package org.semgusng.parser.serialization
+package org.semgusng.parser
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
