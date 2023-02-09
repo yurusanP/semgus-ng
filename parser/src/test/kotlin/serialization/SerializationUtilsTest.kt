@@ -3,6 +3,7 @@ package org.semgusng.parser.serialization
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withData
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.JsonObject
 import org.semgusng.parser.event.ParseEvent
 
@@ -21,7 +22,7 @@ class SerializationUtilsTest : FunSpec(
 
     context("integer-arithmetic/max2-exp") {
       javaClass.getResource("/parser/serialization/max2-exp.json")?.readText()?.let { jsonArr ->
-        val jsonList = jsonArr.decodeBatch(JsonObject.serializer()).map { it.toString() }
+        val jsonList = jsonArr.decode(ListSerializer(JsonObject.serializer())).map { it.toString() }
         withData(jsonList) { json ->
           println(json)
           val event = json.decode(ParseEvent.serializer())

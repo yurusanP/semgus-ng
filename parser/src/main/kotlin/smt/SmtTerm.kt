@@ -14,26 +14,36 @@ import org.semgusng.parser.smt.SmtTerm.*
 @Serializable(with = SmtTermSerializer::class)
 sealed class SmtTerm {
   @SerialName("\$termType") abstract val termType: String
+  abstract val annotations: List<SmtAttribute>?
 
   @Serializable(with = SmtTermSerializer.SmtNumeralLiteralSerializer::class)
   data class SmtNumeralLiteral(
     val value: Long,
     @SerialName("\$termType") override val termType: String = "numeral",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable(with = SmtTermSerializer.SmtDecimalLiteralSerializer::class)
   data class SmtDecimalLiteral(
     val value: Double,
     @SerialName("\$termType") override val termType: String = "decimal",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable(with = SmtTermSerializer.SmtStringLiteralSerializer::class)
   data class SmtStringLiteral(
     val value: String,
     @SerialName("\$termType") override val termType: String = "string",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
-  // Todo: Add support for annotations
+  @Serializable
+  data class SmtBitVectorLiteral(
+    val size: Int,
+    val value: String,
+    @SerialName("\$termType") override val termType: String = "bitvector",
+    override val annotations: List<SmtAttribute>? = null,
+  ) : SmtTerm()
 
   @Serializable
   data class SmtFunctionApplication(
@@ -42,6 +52,7 @@ sealed class SmtTerm {
     val argumentSorts: List<SmtSortIdentifier>,
     val arguments: List<SmtTerm>,
     @SerialName("\$termType") override val termType: String = "application",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable
@@ -49,6 +60,7 @@ sealed class SmtTerm {
     val name: SmtIdentifier,
     val sort: SmtSortIdentifier,
     @SerialName("\$termType") override val termType: String = "variable",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable
@@ -56,6 +68,7 @@ sealed class SmtTerm {
     val bindings: List<SmtVariable>,
     val child: SmtTerm,
     @SerialName("\$termType") override val termType: String = "exists",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable
@@ -63,6 +76,7 @@ sealed class SmtTerm {
     val bindings: List<SmtVariable>,
     val child: SmtTerm,
     @SerialName("\$termType") override val termType: String = "forall",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable
@@ -70,6 +84,7 @@ sealed class SmtTerm {
     val arguments: List<SmtIdentifier>,
     val body: SmtTerm,
     @SerialName("\$termType") override val termType: String = "lambda",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable
@@ -78,6 +93,7 @@ sealed class SmtTerm {
     val arguments: List<SmtIdentifier>,
     val child: SmtTerm,
     @SerialName("\$termType") override val termType: String = "binder",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 
   @Serializable
@@ -85,13 +101,7 @@ sealed class SmtTerm {
     val term: SmtTerm,
     val binders: List<SmtMatchBinder>,
     @SerialName("\$termType") override val termType: String = "match",
-  ) : SmtTerm()
-
-  @Serializable
-  data class SmtBitVectorLiteral(
-    val size: Int,
-    val value: String,
-    @SerialName("\$termType") override val termType: String = "bitvector",
+    override val annotations: List<SmtAttribute>? = null,
   ) : SmtTerm()
 }
 
