@@ -4,4 +4,5 @@ include(
   "base",
   "bench",
   "parser",
+  "pretty"
 )

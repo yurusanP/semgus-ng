@@ -1,17 +1,15 @@
-package org.semgusng.parser.serialization
+package org.semgusng.parser
 
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.spec.style.funSpec
 import io.kotest.datatest.withData
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.JsonObject
 import org.semgusng.parser.event.ParseEvent
 
 fun singleTest(path: String) = funSpec {
   context(path) {
     javaClass.getResource(path)?.readText()?.let { jsonArr ->
-      val jsonList = jsonArr.decode(ListSerializer(JsonObject.serializer())).map { it.toString() }
+      val jsonList = jsonArr.decodeJsonArr()
       withData(jsonList) { json ->
         println(json)
         val event = json.decode(ParseEvent.serializer())
